@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI程序员效率宝典 - 下载</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:#0a0a0f;color:#e0e0e0;min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .card{
+    background:#12121a;border:1px solid #1e1e2e;border-radius:16px;
+    padding:48px 36px;max-width:480px;width:100%;text-align:center;margin:20px;
+  }
+  h1{font-size:28px;color:#fff;margin-bottom:8px}
+  .sub{color:#a78bfa;font-size:14px;margin-bottom:24px}
+  .dl-btn{
+    display:block;padding:16px;border-radius:12px;
+    background:linear-gradient(135deg,#7c3aed,#a78bfa);
+    color:#fff;text-decoration:none;font-size:18px;font-weight:700;
+    margin-bottom:20px;transition:transform .15s,box-shadow .15s;
+  }
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(124,58,237,0.4)}
+  .file-list{text-align:left;margin:16px 0;color:#aaa;font-size:14px;line-height:2}
+  .file-list li::before{content:"✅ ";color:#7c3aed}
+  .back{display:inline-block;margin-top:8px;color:#666;font-size:13px}
+  @media(max-width:500px){.card{padding:32px 20px}}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>🎉 感谢购买！</h1>
+  <p class="sub">AI程序员效率宝典 v1.0</p>
+
+  <a class="dl-btn" href="ai-coder-toolkit.zip" download>📦 立即下载 (21KB)</a>
+
+  <ul class="file-list">
+    <li>6个实战Shell脚本</li>
+    <li>20个AI提示词模板</li>
+    <li>3篇使用教程</li>
+    <li>支持DeepSeek/GPT-4/Claude</li>
+  </ul>
+
+  <p style="font-size:12px;color:#666;margin-top:16px;">
+    解压即用。有问题微信留言。<br>
+    永久免费更新，敬请期待 v1.1 ✨
+  </p>
+  <a class="back" href="index.html">← 返回首页</a>
+
+  <script>
+    // 自动触发下载
+    setTimeout(function(){
+      var a = document.createElement('a');
+      a.href = 'ai-coder-toolkit.zip';
+      a.download = '';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }, 500);
+  </script>
+</div>
+</body>
+</html>

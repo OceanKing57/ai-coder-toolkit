@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI程序员效率宝典 — 30个AI辅助编程工具，让你每天早下班2小时</title>
+<style>
+  /* ========== Reset & Base ========== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: #0a0a0f;
+    color: #e0e0e0;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+
+  /* ========== Utility ========== */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 80px 0; }
+  .section-label {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #a78bfa;
+    background: rgba(167,139,250,0.1);
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .section-subtitle {
+    font-size: 16px;
+    color: #9ca3af;
+    max-width: 600px;
+    margin-bottom: 48px;
+  }
+  .center { text-align: center; }
+  .center .section-subtitle { margin-left: auto; margin-right: auto; }
+
+  /* ========== Glow Effects ========== */
+  .glow-purple {
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ========== Header / Nav ========== */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  header .container {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-size: 18px; font-weight: 700;
+    background: linear-gradient(135deg, #a78bfa, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-cta {
+    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(124,58,237,0.4); }
+
+  /* ========== Hero ========== */
+  #hero {
+    position: relative;
+    padding: 100px 0 80px;
+    overflow: hidden;
+  }
+  #hero .glow-purple { top: -100px; right: -150px; }
+  #hero .glow-purple:nth-child(2) { top: 200px; left: -200px; background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%); }
+  #hero .container { position: relative; z-index: 1; text-align: center; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.3);
+    padding: 6px 18px;
+    border-radius: 24px;
+    font-size: 14px;
+    color: #c4b5fd;
+    margin-bottom: 28px;
+  }
+  .hero-badge .dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: pulse-dot 2s infinite; }
+  @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .hero-title {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 900;
+    line-height: 1.15;
+    background: linear-gradient(135deg, #ffffff 30%, #c4b5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+  }
+  .hero-subtitle {
+    font-size: clamp(16px, 2.5vw, 20px);
+    color: #9ca3af;
+    max-width: 500px;
+    margin: 0 auto 12px;
+  }
+  .hero-price {
+    font-size: 48px; font-weight: 900; color: #a78bfa; margin-bottom: 8px;
+  }
+  .hero-price small { font-size: 18px; font-weight: 400; color: #6b7280; }
+  .hero-price-note { font-size: 14px; color: #6b7280; margin-bottom: 32px; }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 16px 48px;
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    box-shadow: 0 4px 30px rgba(124,58,237,0.35);
+  }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 40px rgba(124,58,237,0.5); }
+  .hero-cta svg { width: 20px; height: 20px; }
+  .hero-trust {
+    margin-top: 28px;
+    display: flex; align-items: center; justify-content: center; gap: 24px;
+    font-size: 13px; color: #6b7280;
+  }
+  .hero-trust span { display: flex; align-items: center; gap: 6px; }
+  .hero-trust .check { color: #22c55e; font-weight: 700; }
+
+  /* ========== Pain Points ========== */
+  #pain-points { background: rgba(255,255,255,0.015); }
+  .pain-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .pain-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 32px 28px;
+    transition: border-color 0.3s;
+  }
+  .pain-card:hover { border-color: rgba(239,68,68,0.3); }
+  .pain-icon { font-size: 36px; margin-bottom: 16px; }
+  .pain-card h3 { font-size: 18px; color: #fff; margin-bottom: 8px; }
+  .pain-card p { font-size: 14px; color: #9ca3af; line-height: 1.6; }
+
+  /* ========== Features ========== */
+  .feature-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .feature-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 28px 24px;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  }
+  .feature-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(167,139,250,0.3);
+    box-shadow: 0 8px 30px rgba(124,58,237,0.1);
+  }
+  .feature-icon { font-size: 32px; margin-bottom: 14px; }
+  .feature-card h3 { font-size: 17px; color: #fff; margin-bottom: 6px; }
+  .feature-card p { font-size: 14px; color: #9ca3af; line-height: 1.5; }
+
+  /* ========== Script Preview ========== */
+  #script-preview { background: rgba(255,255,255,0.015); }
+  .script-list { display: flex; flex-direction: column; gap: 14px; max-width: 700px; margin: 0 auto; }
+  .script-item {
+    display: flex; align-items: center; gap: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 20px 24px;
+    transition: border-color 0.2s;
+  }
+  .script-item:hover { border-color: rgba(167,139,250,0.3); }
+  .script-icon {
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    background: rgba(124,58,237,0.15);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .script-info h4 { font-size: 15px; color: #fff; font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace; }
+  .script-info p { font-size: 13px; color: #9ca3af; margin-top: 2px; }
+
+  /* ========== Pricing ========== */
+  #pricing { position: relative; }
+  .pricing-card {
+    max-width: 420px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(167,139,250,0.25);
+    border-radius: 20px;
+    padding: 40px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .pricing-card::before {
+    content: "限时优惠";
+    position: absolute;
+    top: 16px; right: -28px;
+    background: linear-gradient(135deg, #ef4444, #f97316);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 36px;
+    transform: rotate(45deg);
+  }
+  .pricing-original {
+    font-size: 22px;
+    color: #6b7280;
+    text-decoration: line-through;
+    margin-bottom: 4px;
+  }
+  .pricing-now {
+    font-size: 56px;
+    font-weight: 900;
+    color: #a78bfa;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .pricing-now small { font-size: 20px; font-weight: 400; }
+  .pricing-desc { font-size: 14px; color: #9ca3af; margin-bottom: 28px; }
+  .pricing-features {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 28px;
+  }
+  .pricing-features li {
+    font-size: 14px;
+    color: #d1d5db;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .pricing-features li::before { content: "✓"; color: #22c55e; font-weight: 700; }
+  .pricing-cta {
+    display: block; width: 100%;
+    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 14px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .pricing-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(124,58,237,0.4); }
+
+  /* ========== How to Buy ========== */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+  }
+  .step-card {
+    text-align: center;
+    padding: 36px 24px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    position: relative;
+  }
+  .step-number {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 800; color: #fff;
+    margin-bottom: 16px;
+  }
+  .step-card h3 { font-size: 18px; color: #fff; margin-bottom: 6px; }
+  .step-card p { font-size: 14px; color: #9ca3af; }
+
+  /* ========== WeChat Pay ========== */
+  #wechat-pay { background: rgba(255,255,255,0.015); }
+  .wechat-pay-wrapper {
+    max-width: 420px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 20px;
+    padding: 40px 24px;
+    text-align: center;
+  }
+  .wechat-pay-wrapper .qr-note {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .wechat-pay-wrapper .qr-subnote {
+    font-size: 14px;
+    color: #9ca3af;
+    margin-bottom: 28px;
+  }
+  .wechat-pay-wrapper .qr-price {
+    font-size: 32px;
+    font-weight: 900;
+    color: #a78bfa;
+    margin-bottom: 24px;
+  }
+  .wechat-pay-wrapper .qr-tip {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+
+  /* ========== FAQ ========== */
+  #faq { background: rgba(255,255,255,0.015); }
+  .faq-list { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+  .faq-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 20px 24px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .faq-item:hover { border-color: rgba(167,139,250,0.25); }
+  .faq-item h3 {
+    font-size: 15px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .faq-item h3 .faq-arrow {
+    flex-shrink: 0;
+    transition: transform 0.25s;
+    font-size: 12px;
+    color: #6b7280;
+  }
+  .faq-item.open h3 .faq-arrow { transform: rotate(180deg); }
+  .faq-item p { font-size: 14px; color: #9ca3af; line-height: 1.6; display: none; margin-top: 10px; }
+  .faq-item.open p { display: block; }
+  .faq-item.open h3 { color: #a78bfa; }
+
+  /* ========== Footer ========== */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 40px 0;
+    text-align: center;
+  }
+  footer .brand {
+    font-size: 18px; font-weight: 700;
+    background: linear-gradient(135deg, #a78bfa, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  footer p { font-size: 13px; color: #6b7280; }
+  footer .contact { color: #9ca3af; margin-top: 4px; }
+
+  /* ========== Responsive ========== */
+  @media (max-width: 640px) {
+    .section { padding: 56px 0; }
+    #hero { padding: 72px 0 56px; }
+    .hero-title { font-size: 32px; }
+    .hero-price { font-size: 36px; }
+    .hero-cta { padding: 14px 32px; font-size: 16px; }
+    .pricing-card { padding: 32px 20px; }
+    .pricing-now { font-size: 44px; }
+    .feature-cards { grid-template-columns: 1fr; }
+    .pain-cards { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .wechat-pay-wrapper { padding: 28px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== 1. HEADER ==================== -->
+<header>
+  <div class="container">
+    <div class="logo">⚡小琳出品</div>
+    <a href="#pricing" class="nav-cta">立即购买</a>
+  </div>
+</header>
+
+<!-- ==================== 2. HERO ==================== -->
+<section id="hero">
+  <div class="glow-purple"></div>
+  <div class="glow-purple"></div>
+  <div class="container">
+    <div class="hero-badge">
+      <span class="dot"></span> 已帮助 500+ 程序员提升效率
+    </div>
+    <h1 class="hero-title">AI程序员效率宝典</h1>
+    <p class="hero-subtitle">30个AI辅助编程工具，让你每天早下班2小时</p>
+    <div class="hero-price">¥19.9 <small>/ 永久</small></div>
+    <p class="hero-price-note">一杯奶茶的钱，换每天2小时自由</p>
+    <a href="#pricing" class="hero-cta">
+      立即购买
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <div class="hero-trust">
+      <span><span class="check">✓</span> 永久更新</span>
+      <span><span class="check">✓</span> 复制即用</span>
+      <span><span class="check">✓</span> 24h 发货</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 3. PAIN POINTS ==================== -->
+<section id="pain-points" class="section">
+  <div class="container center">
+    <span class="section-label">你是否有这些困扰？</span>
+    <h2 class="section-title">程序员的日常痛点</h2>
+    <p class="section-subtitle">每天加班到深夜，其实很多时间都花在了重复劳动上</p>
+  </div>
+  <div class="container">
+    <div class="pain-cards">
+      <div class="pain-card">
+        <div class="pain-icon">😫</div>
+        <h3>写重复代码浪费时间</h3>
+        <p>CRUD、表单校验、API对接… 每次都从头写，明明上周才写过几乎一样的东西。时间都浪费在 Ctrl+C / Ctrl+V 上了。</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🐢</div>
+        <h3>Code Review 太慢</h3>
+        <p>代码写完了，Review 要等半天。自己检查又容易漏，AI 能帮你秒级发现问题，但你不知道怎么用好它。</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">😰</div>
+        <h3>文档 / 测试总是忘记写</h3>
+        <p>功能写完了，测试没写、文档没写。等要交接或上线才发现，又是一通手忙脚乱。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 4. FEATURES ==================== -->
+<section id="features" class="section">
+  <div class="container center">
+    <span class="section-label">产品亮点</span>
+    <h2 class="section-title">这套宝典包含什么？</h2>
+    <p class="section-subtitle">精心打磨的30个工具，每一个都经过实战验证</p>
+  </div>
+  <div class="container">
+    <div class="feature-cards">
+      <div class="feature-card">
+        <div class="feature-icon">🔧</div>
+        <h3>10个即用脚本</h3>
+        <p>自动化代码生成、项目脚手架、批量重构，复制到终端就能跑，零学习成本。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>20个AI提示词</h3>
+        <p>专为编程场景优化的 Prompt，覆盖 Debug、Code Review、测试生成、文档编写。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📖</div>
+        <h3>3篇实战教程</h3>
+        <p>从 0 到 1 的真实项目案例，展示如何把 AI 融入日常开发流程。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>复制即用，零配置</h3>
+        <p>不需要安装任何插件，不需要配环境。拿到手直接复制粘贴，立刻出效果。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>支持 ChatGPT / Claude / DeepSeek</h3>
+        <p>主流 AI 平台全覆盖，不管你用哪个模型，都能无缝使用所有提示词和脚本。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <h3>买一次，永久更新</h3>
+        <p>一次购买，终身有效。后续新增的工具和教程，你都能免费获取。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 5. SCRIPT PREVIEW ==================== -->
+<section id="script-preview" class="section">
+  <div class="container center">
+    <span class="section-label">先睹为快</span>
+    <h2 class="section-title">部分脚本预览</h2>
+    <p class="section-subtitle">这只是冰山一角，每个脚本都附有详细说明</p>
+  </div>
+  <div class="container">
+    <div class="script-list">
+      <div class="script-item">
+        <div class="script-icon">🚀</div>
+        <div class="script-info">
+          <h4>ai-scaffold — 一句话生成项目脚手架</h4>
+          <p>输入"React+Django 博客系统"，自动生成完整目录结构、依赖文件和基础代码。从 0 到能跑，只需一条命令。</p>
+        </div>
+      </div>
+      <div class="script-item">
+        <div class="script-icon">🐛</div>
+        <div class="script-info">
+          <h4>ai-debug — AI 辅助 Debug 脚本</h4>
+          <p>粘贴报错信息，自动分析根因并给出修复方案。支持 Python / JS / Go / Rust 等主流语言。</p>
+        </div>
+      </div>
+      <div class="script-item">
+        <div class="script-icon">✅</div>
+        <div class="script-info">
+          <h4>ai-test-gen — 自动生成单元测试</h4>
+          <p>选中函数，一键生成覆盖正常/边界/异常的测试用例。Jest / Pytest / Go test 格式全支持。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 6. PRICING ==================== -->
+<section id="pricing" class="section">
+  <div class="container center">
+    <span class="section-label">定价</span>
+    <h2 class="section-title">一杯奶茶换每天早下班2小时</h2>
+    <p class="section-subtitle">永久买断，无订阅，无隐藏费用</p>
+  </div>
+  <div class="container">
+    <div class="pricing-card">
+      <div class="pricing-original">原价 ¥49.9</div>
+      <div class="pricing-now">¥19.9 <small>/ 永久</small></div>
+      <p class="pricing-desc">一次购买，终身使用 + 免费更新</p>
+      <ul class="pricing-features">
+        <li>10个即用脚本（Shell / Python）</li>
+        <li>20个AI精准提示词</li>
+        <li>3篇实战教程</li>
+        <li>支持 ChatGPT / Claude / DeepSeek</li>
+        <li>永久免费更新</li>
+        <li>💰 支付后即时下载</li>
+      </ul>
+      <a href="#wechat-pay" class="pricing-cta">立即购买 ¥19.9</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 7. HOW TO BUY ==================== -->
+<section id="how-to-buy" class="section">
+  <div class="container center">
+    <span class="section-label">购买流程</span>
+    <h2 class="section-title">三步到手，即时下载</h2>
+    <p class="section-subtitle">扫码支付 → 获取解锁码 → 立刻下载，全程不需要等</p>
+  </div>
+  <div class="container">
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3>扫码支付 ¥19.9</h3>
+        <p>使用微信扫描下方收款码完成支付</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3>获取解锁码</h3>
+        <p>支付后微信回复你解锁码（或查看页面下方）</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3>一键下载</h3>
+        <p>点击「已完成支付」按钮，自动跳转下载，1秒到手</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 8. WECHAT PAY ==================== -->
+<section id="wechat-pay" class="section">
+  <div class="container center">
+    <span class="section-label">微信支付</span>
+    <h2 class="section-title">扫码支付 → 即时下载</h2>
+    <p class="section-subtitle">付完直接拿资料，不用等邮件</p>
+  </div>
+  <div class="container">
+    <div class="wechat-pay-wrapper">
+      <p class="qr-note">微信收款码</p>
+      <p class="qr-subnote">扫描下方二维码支付 ¥19.9</p>
+      <img src="qrcode.jpg" alt="微信收款码" style="width:260px; border-radius:12px; margin: 0 auto;">
+      <p class="qr-price">¥19.9</p>
+      <a href="unlock.html" style="display:inline-block; margin-top:16px; padding:14px 36px; background:linear-gradient(135deg,#7c3aed,#a78bfa); color:#fff; border-radius:10px; font-size:16px; font-weight:700; text-decoration:none; transition:transform .15s,box-shadow .15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 20px rgba(124,58,237,0.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+        ✅ 我已完成支付 → 立即下载
+      </a>
+      <p style="font-size:12px; color:#666; margin-top:10px;">付完点一下，直接下载，1秒都别等</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 9. FAQ ==================== -->
+<section id="faq" class="section">
+  <div class="container center">
+    <span class="section-label">常见问题</span>
+    <h2 class="section-title">你可能想问</h2>
+    <p class="section-subtitle">还有其他问题？支付备注里留言，我们会一并回复</p>
+  </div>
+  <div class="container">
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3>这些工具真的复制就能用吗？<span class="faq-arrow">▼</span></h3>
+        <p>是的！所有脚本和提示词都经过精心打磨，你只需要复制粘贴到你的终端或 AI 对话窗口即可。不需要安装任何额外插件或配置复杂环境。每个工具都有详细的使用说明。</p>
+      </div>
+      <div class="faq-item">
+        <h3>支持哪些 AI 平台？</h3>
+        <p>目前支持 ChatGPT（GPT-4/4o）、Claude（Sonnet/Opus）和 DeepSeek（V2/V3）。提示词针对不同平台做了适配，保证在各平台上都能获得最佳效果。</p>
+      </div>
+      <div class="faq-item">
+        <h3>买一次真的永久更新吗？</h3>
+        <p>绝对真的！一次购买，终身有效。我们后续新增的脚本、提示词和教程，你都会通过邮件免费获得更新。没有任何隐藏的订阅费用。</p>
+      </div>
+      <div class="faq-item">
+        <h3>付款后多久能收到？</h3>
+        <p>立刻！支付完成后点击「我已完成支付 → 立即下载」按钮，跳转到下载页自动开始下载。全程不需要等，不需要解锁码，不需要邮箱。</p>
+      </div>
+      <div class="faq-item">
+        <h3>不满意可以退款吗？</h3>
+        <p>数字产品即时交付，原则上不支持退款。但你可以在支付备注中留言，我们会认真处理每一个反馈。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="container">
+    <div class="brand">⚡小琳出品</div>
+    <p>© 2025 小琳出品 · AI程序员效率宝典</p>
+    <p class="contact">📧 有任何问题？支付备注留言，我们会尽快回复</p>
+  </div>
+</footer>
+
+<!-- ==================== FAQ Accordion JS ==================== -->
+<script>
+(function() {
+  var items = document.querySelectorAll('.faq-item');
+  items.forEach(function(item) {
+    item.addEventListener('click', function() {
+      var wasOpen = this.classList.contains('open');
+      // Close all first
+      items.forEach(function(el) { el.classList.remove('open'); });
+      // Toggle clicked one (close if was open, open if was closed)
+      if (!wasOpen) this.classList.add('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
